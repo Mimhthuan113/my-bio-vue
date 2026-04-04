@@ -11,7 +11,7 @@
     <canvas class="trail-canvas" ref="trailCanvas"></canvas>
 
     <!-- Audio -->
-    <AudioToggle />
+    <AudioToggle :shouldPlay="entered" />
 
     <!-- Main -->
     <div class="main-container" :class="{ visible: entered }">
@@ -38,6 +38,8 @@ import TypingText from './components/TypingText.vue'
 import SocialLinks from './components/SocialLinks.vue'
 import InfoCard from './components/InfoCard.vue'
 import TechBadges from './components/TechBadges.vue'
+
+import { profileConfig } from './config/profile'
 
 const entered = ref(false)
 const card = ref(null)
@@ -162,24 +164,7 @@ watch(entered, (val) => {
   }
 })
 
-const typingTexts = [
-  '❄️ Full-Stack Developer',
-  '🤖 AI & Chatbot Enthusiast',
-  '☕ Coding with hot cocoa',
-  '🏔️ Winter is my season',
-  '💻 Java • Node.js • .NET • Python',
-  '🎨 Vue.js • HTML • CSS',
-  '⛄ Building cool stuff!'
-]
-
-const socialLinks = [
-  { name: 'GitHub', icon: 'bi-github', url: 'https://github.com/Mimhthuan113', color: '#ffffff' },
-  { name: 'Facebook', icon: 'bi-facebook', url: 'https://www.facebook.com/tran.quang.trung.954998', color: '#1877F2' },
-  { name: 'Zalo', icon: 'bi-chat-dots-fill', url: 'https://zalo.me/0853413780', color: '#0068FF' },
-  { name: 'Email', icon: 'bi-envelope-fill', url: 'mailto:mimhthuan113@gmail.com', color: '#EA4335' }
-]
-
-const techBadges = ['Java', 'Node.js', '.NET', 'Python', 'PHP', 'Vue.js', 'Docker']
+const { typingTexts, socialLinks, techBadges } = profileConfig
 </script>
 
 <style>

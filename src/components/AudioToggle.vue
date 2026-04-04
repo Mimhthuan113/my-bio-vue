@@ -14,6 +14,13 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 
+const props = defineProps({
+  shouldPlay: {
+    type: Boolean,
+    default: false
+  }
+})
+
 const isMuted = ref(true)
 const player = ref(null)
 const isApiReady = ref(false)
@@ -21,6 +28,15 @@ const isApiReady = ref(false)
 const toggle = () => {
   isMuted.value = !isMuted.value
 }
+
+// Watch shouldPlay prop to start music
+watch(() => props.shouldPlay, (val) => {
+  if (val && player.value) {
+    isMuted.value = false
+    player.value.playVideo()
+    player.value.unMute()
+  }
+})
 
 // Watch mute state to control player
 watch(isMuted, (val) => {
@@ -30,6 +46,7 @@ watch(isMuted, (val) => {
     player.value.pauseVideo()
   } else {
     player.value.playVideo()
+    player.value.unMute()
   }
 })
 
@@ -52,15 +69,17 @@ onMounted(() => {
         'autoplay': 0,
         'controls': 0,
         'loop': 1,
-        'playlist': 'BjVHBGGm00k', // Required for loop
+        'playlist': 'BjVHBGGm00k',
         'modestbranding': 1,
-        'showinfo': 0
+        'showinfo': 0,
+        'mute': 1 // Start muted to allow background load
       },
       events: {
         'onReady': (event) => {
-          // Player is ready, but keep muted/paused by default as per UI state
-          if (!isMuted.value) {
+          if (props.shouldPlay) {
+            isMuted.value = false
             event.target.playVideo()
+            event.target.unMute()
           }
         }
       }
