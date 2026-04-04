@@ -1,0 +1,257 @@
+/* ============================================
+   ❄️ WINTER WONDERLAND - Global Styles v2
+   Vue 3 + Bootstrap 5 — Maximum Effects
+   ============================================ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+/* ===== Base ===== */
+:root {
+  --bg-deep: #060c18;
+  --ice-glow: #00d4ff;
+  --ice-blue: #87ceeb;
+  --ice-cyan: #22d3ee;
+  --snow-white: #f0f8ff;
+  --aurora-1: #00c6ff;
+  --aurora-2: #7b2fff;
+  --aurora-3: #00ff87;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html, body, #app {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #ffffff;
+  background: var(--bg-deep);
+}
+
+/* ===== AURORA BACKGROUND ===== */
+#app::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-deep);
+}
+
+#app::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 10% 20%, rgba(0,198,255,0.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 90% 80%, rgba(123,47,255,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 50% at 50% 50%, rgba(0,255,135,0.04) 0%, transparent 60%);
+  animation: aurora-shift 12s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-shift {
+  0%   {
+    background:
+      radial-gradient(ellipse 80% 60% at 10% 20%, rgba(0,198,255,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 80% at 90% 80%, rgba(123,47,255,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 50%, rgba(0,255,135,0.04) 0%, transparent 60%);
+  }
+  33%  {
+    background:
+      radial-gradient(ellipse 70% 70% at 80% 10%, rgba(0,198,255,0.15) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 60% at 20% 90%, rgba(123,47,255,0.12) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 40% at 60% 40%, rgba(0,212,255,0.06) 0%, transparent 60%);
+  }
+  66%  {
+    background:
+      radial-gradient(ellipse 60% 80% at 50% 30%, rgba(135,206,235,0.10) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 70% at 40% 70%, rgba(123,47,255,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 80% 60% at 80% 20%, rgba(0,255,135,0.05) 0%, transparent 60%);
+  }
+  100% {
+    background:
+      radial-gradient(ellipse 90% 50% at 30% 60%, rgba(0,198,255,0.14) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 90% at 70% 30%, rgba(123,47,255,0.11) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 60% at 20% 40%, rgba(0,255,135,0.04) 0%, transparent 60%);
+  }
+}
+
+/* ===== BOKEH LAYER ===== */
+.bokeh-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bokeh-dot {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(135,206,235,0.35) 0%, transparent 70%);
+  animation: bokeh-float linear infinite;
+  filter: blur(8px);
+}
+
+@keyframes bokeh-float {
+  0%   { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateY(-20vh) scale(1.2); opacity: 0; }
+}
+
+/* ===== Main Layout ===== */
+.main-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 1s ease 0.2s;
+}
+
+.main-container.visible { opacity: 1; }
+
+/* ===== GLASS CARD ===== */
+.glass-card {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(28px) saturate(180%);
+  -webkit-backdrop-filter: blur(28px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 28px;
+  padding: 44px 38px 32px;
+  position: relative;
+  overflow: hidden;
+  animation: card-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform;
+  box-shadow:
+    0 25px 60px rgba(0,0,0,0.4),
+    0 0 100px rgba(0,212,255,0.04),
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    inset 0 -1px 0 rgba(0,0,0,0.15);
+}
+
+/* Shimmer sweep on card */
+.glass-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%; height: 100%;
+  background: linear-gradient(90deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 50%,
+    transparent 100%);
+  animation: card-shimmer 6s ease-in-out infinite;
+  z-index: 0;
+}
+
+/* Top glow line */
+.glass-card::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(0,212,255,0.4), transparent);
+  animation: glow-line 4s ease-in-out infinite;
+}
+
+@keyframes card-shimmer {
+  0%, 100% { left: -100%; opacity: 0; }
+  30%, 70% { opacity: 1; }
+  60% { left: 150%; }
+}
+
+@keyframes glow-line {
+  0%, 100% { opacity: 0.3; box-shadow: none; }
+  50% { opacity: 1; box-shadow: 0 0 20px rgba(0,212,255,0.5); }
+}
+
+/* ===== STATUS DOT ===== */
+.status-dot {
+  position: absolute;
+  top: 22px; left: 22px;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #22c55e;
+  box-shadow: 0 0 0 0 rgba(34,197,94,0.6);
+  animation: ripple-dot 2s ease-in-out infinite;
+}
+
+@keyframes ripple-dot {
+  0%   { box-shadow: 0 0 0 0 rgba(34,197,94,0.6); }
+  70%  { box-shadow: 0 0 0 10px rgba(34,197,94,0); }
+  100% { box-shadow: 0 0 0 0 rgba(34,197,94,0); }
+}
+
+/* ===== PROFILE NAME ===== */
+.profile-name {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--ice-blue) 50%, var(--ice-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 0.5px;
+  position: relative;
+  animation: name-glow 4s ease-in-out infinite;
+  /* Stagger entrance */
+  opacity: 0;
+  animation: name-enter 0.7s ease 0.5s forwards, name-glow 4s ease-in-out 1.2s infinite;
+}
+
+@keyframes name-enter {
+  0%   { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes name-glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(0,212,255,0.3)); }
+  50%       { filter: drop-shadow(0 0 20px rgba(0,212,255,0.6)); }
+}
+
+/* ===== CARD RISE ANIMATION ===== */
+@keyframes card-rise {
+  0%   { opacity: 0; transform: perspective(1000px) rotateX(6deg) translateY(40px) scale(0.94); }
+  100% { opacity: 1; transform: perspective(1000px) rotateX(0deg) translateY(0) scale(1); }
+}
+
+/* ===== STAGGER ENTRANCE CHILDREN ===== */
+.glass-card > * {
+  animation: child-enter 0.6s ease both;
+}
+.glass-card > *:nth-child(1) { animation-delay: 0.1s; }
+.glass-card > *:nth-child(2) { animation-delay: 0.2s; }
+.glass-card > *:nth-child(3) { animation-delay: 0.35s; }
+.glass-card > *:nth-child(4) { animation-delay: 0.5s; }
+.glass-card > *:nth-child(5) { animation-delay: 0.6s; }
+.glass-card > *:nth-child(6) { animation-delay: 0.7s; }
+.glass-card > *:nth-child(7) { animation-delay: 0.8s; }
+
+@keyframes child-enter {
+  0%   { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== Scrollbar ===== */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }
+
+/* ===== Responsive ===== */
+@media (max-width: 480px) {
+  .glass-card {
+    padding: 30px 22px 24px;
+    border-radius: 22px;
+    max-width: 95%;
+  }
+  .profile-name { font-size: 24px; }
+}
