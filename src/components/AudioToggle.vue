@@ -14,29 +14,25 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
 
-const props = defineProps({
-  shouldPlay: {
-    type: Boolean,
-    default: false
-  }
-})
-
 const isMuted = ref(true)
 const player = ref(null)
 const isApiReady = ref(false)
+const pendingPlay = ref(false)
 
 const toggle = () => {
   isMuted.value = !isMuted.value
 }
 
-// Watch shouldPlay prop to start music
-watch(() => props.shouldPlay, (val) => {
-  if (val && player.value) {
+// Method to start audio directly (called from user interaction)
+const start = () => {
+  if (isApiReady.value && player.value) {
     isMuted.value = false
     player.value.playVideo()
     player.value.unMute()
+  } else {
+    pendingPlay.value = true
   }
-})
+}
 
 // Watch mute state to control player
 watch(isMuted, (val) => {
@@ -62,8 +58,8 @@ onMounted(() => {
   window.onYouTubeIframeAPIReady = () => {
     isApiReady.value = true
     player.value = new window.YT.Player('player', {
-      height: '0',
-      width: '0',
+      height: '1',
+      width: '1',
       videoId: 'BjVHBGGm00k',
       playerVars: {
         'autoplay': 0,
@@ -72,20 +68,23 @@ onMounted(() => {
         'playlist': 'BjVHBGGm00k',
         'modestbranding': 1,
         'showinfo': 0,
-        'mute': 1 // Start muted to allow background load
+        'mute': 1
       },
       events: {
         'onReady': (event) => {
-          if (props.shouldPlay) {
+          if (pendingPlay.value) {
             isMuted.value = false
             event.target.playVideo()
             event.target.unMute()
+            pendingPlay.value = false
           }
         }
       }
     })
   }
 })
+
+defineExpose({ start })
 
 onBeforeUnmount(() => {
   if (player.value && player.value.destroy) {
@@ -95,6 +94,17 @@ onBeforeUnmount(() => {
 </script>
 
 <style scoped>
+#youtube-player-container {
+  position: fixed;
+  top: -10px;
+  left: -10px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
 .audio-btn {
   position: fixed;
   top: 20px;

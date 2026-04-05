@@ -11,7 +11,7 @@
     <canvas class="trail-canvas" ref="trailCanvas"></canvas>
 
     <!-- Audio -->
-    <AudioToggle :shouldPlay="entered" />
+    <AudioToggle ref="audioToggle" />
 
     <!-- Main -->
     <div class="main-container" :class="{ visible: entered }">
@@ -42,12 +42,16 @@ import TechBadges from './components/TechBadges.vue'
 import { profileConfig } from './config/profile'
 
 const entered = ref(false)
+const audioToggle = ref(null)
 const card = ref(null)
 const bokehLayer = ref(null)
 const trailCanvas = ref(null)
 
 const onEnter = () => {
   entered.value = true
+  if (audioToggle.value) {
+    audioToggle.value.start()
+  }
 }
 
 // ===== Bokeh Particles =====
