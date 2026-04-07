@@ -13,11 +13,14 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, watch } from 'vue'
+import { profileConfig } from '../../config/profile'
 
 const isMuted = ref(true)
 const player = ref(null)
 const isApiReady = ref(false)
 const pendingPlay = ref(false)
+
+const youtubeId = profileConfig.audio.youtubeId
 
 const toggle = () => {
   isMuted.value = !isMuted.value
@@ -60,12 +63,12 @@ onMounted(() => {
     player.value = new window.YT.Player('player', {
       height: '1',
       width: '1',
-      videoId: 'BjVHBGGm00k',
+      videoId: youtubeId,
       playerVars: {
         'autoplay': 0,
         'controls': 0,
         'loop': 1,
-        'playlist': 'BjVHBGGm00k',
+        'playlist': youtubeId,
         'modestbranding': 1,
         'showinfo': 0,
         'mute': 1

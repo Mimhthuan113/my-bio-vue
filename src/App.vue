@@ -30,16 +30,17 @@
 
 <script setup>
 import { ref, onMounted, watch } from 'vue'
-import SplashScreen from './components/SplashScreen.vue'
-import SnowfallEffect from './components/SnowfallEffect.vue'
-import AudioToggle from './components/AudioToggle.vue'
-import AvatarGlow from './components/AvatarGlow.vue'
-import TypingText from './components/TypingText.vue'
-import SocialLinks from './components/SocialLinks.vue'
-import InfoCard from './components/InfoCard.vue'
-import TechBadges from './components/TechBadges.vue'
+import SplashScreen from './components/layout/SplashScreen.vue'
+import SnowfallEffect from './components/effects/SnowfallEffect.vue'
+import AudioToggle from './components/effects/AudioToggle.vue'
+import AvatarGlow from './components/common/AvatarGlow.vue'
+import TypingText from './components/common/TypingText.vue'
+import SocialLinks from './components/common/SocialLinks.vue'
+import InfoCard from './components/common/InfoCard.vue'
+import TechBadges from './components/common/TechBadges.vue'
 
 import { profileConfig } from './config/profile'
+import { uiConfig } from './config/ui'
 
 const entered = ref(false)
 const audioToggle = ref(null)
@@ -57,26 +58,21 @@ const onEnter = () => {
 // ===== Bokeh Particles =====
 const createBokeh = () => {
   if (!bokehLayer.value) return
-  const sizes = [40, 60, 80, 100, 120, 160]
-  const colors = [
-    'rgba(135,206,235,0.25)',
-    'rgba(0,212,255,0.2)',
-    'rgba(123,47,255,0.18)',
-    'rgba(0,198,255,0.22)',
-  ]
-  for (let i = 0; i < 12; i++) {
+  const { sizes, colors, count, spawnInterval } = uiConfig.bokeh
+  for (let i = 0; i < count; i++) {
     setTimeout(() => spawnBokeh(sizes, colors), i * 400)
   }
-  setInterval(() => spawnBokeh(sizes, colors), 2500)
+  setInterval(() => spawnBokeh(sizes, colors), spawnInterval)
 }
 
 const spawnBokeh = (sizes, colors) => {
   if (!bokehLayer.value) return
+  const { baseDuration, randomDuration } = uiConfig.bokeh
   const dot = document.createElement('div')
   dot.className = 'bokeh-dot'
   const s = sizes[Math.floor(Math.random() * sizes.length)]
   const c = colors[Math.floor(Math.random() * colors.length)]
-  const dur = 12 + Math.random() * 10
+  const dur = baseDuration + Math.random() * randomDuration
   dot.style.cssText = `
     width:${s}px;height:${s}px;left:${Math.random() * 100}%;
     background:radial-gradient(circle,${c} 0%,transparent 70%);
@@ -94,7 +90,8 @@ const onCardTilt = (e) => {
   const cy = rect.top + rect.height / 2
   const dx = (e.clientX - cx) / (rect.width / 2)
   const dy = (e.clientY - cy) / (rect.height / 2)
-  card.value.style.transform = `perspective(900px) rotateY(${dx * 6}deg) rotateX(${-dy * 6}deg) scale(1.02)`
+  const { perspective, maxRotate, scale } = uiConfig.tilt
+  card.value.style.transform = `perspective(${perspective}px) rotateY(${dx * maxRotate}deg) rotateX(${-dy * maxRotate}deg) scale(${scale})`
   card.value.style.boxShadow = `
     ${-dx * 20}px ${-dy * 20}px 60px rgba(0,0,0,0.35),
     0 0 80px rgba(0,212,255,0.06),

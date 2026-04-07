@@ -1,31 +1,52 @@
-# 🏗️ Architecture Overview
+# 🏛️ Portfolio Architecture
 
-Tài liệu này mô tả kiến trúc kỹ thuật của dự án Winter Portfolio.
+Tài liệu này mô tả chi tiết kiến trúc kỹ thuật và luồng dữ liệu của project Portfolio.
 
-## 1. Core Stack
+## 1. Hệ thống Component (Component Hierarchy)
 
-- **Framework**: Vue 3 (Composition API)
-- **Task Runner**: Vite
-- **Styling**: Vanilla CSS + Bootstrap 5 (cho layout & icons)
-- **Audio API**: YouTube IFrame API
+```mermaid
+graph TD
+    App[App.vue] --> Splash[SplashScreen.vue]
+    App --> Snow[SnowfallEffect.vue]
+    App --> Audio[AudioToggle.vue]
+    App --> Card[Glass Card Container]
 
-## 2. Design Patterns
+    Card --> Avatar[AvatarGlow.vue]
+    Card --> Type[TypingText.vue]
+    Card --> Social[SocialLinks.vue]
+    Card --> Info[InfoCard.vue]
+    Card --> Tech[TechBadges.vue]
+```
 
-### 🧩 Single Source of Truth
+## 2. Luồng xử lý chính (Core Flows)
 
-Toàn bộ dữ liệu cá nhân được tách khỏi logic component và lưu trữ tại `src/config/profile.js`. Điều này giúp việc cập nhật thông tin cực kỳ nhanh chóng mà không cần can thiệp vào logic Vue.
+### A. Initialization Flow
 
-### 🌉 Component Communication
+1. **SplashScreen**: Hiển thị khi người dùng vào trang.
+2. **User Interaction**: Người dùng nhấn nút "Enter".
+3. **Audio Playback**: `AudioToggle` nhận event và bắt đầu phát nhạc qua YouTube API.
+4. **Main Content**: `App.vue` kích hoạt các hiệu ứng (Bokeh, Trail) và hiển thị card chính.
 
-- **Event-driven**: `SplashScreen` phát ra sự kiện `enter` khi user click. `App.vue` bắt sự kiện này để kích hoạt luồng ứng dụng chính.
-- **Props-based**: Trạng thái `entered` từ `App.vue` được truyền xuống `AudioToggle` (dưới tên `shouldPlay`) để kích hoạt nhạc nền, đảm bảo tuân thủ chính sách autoplay của trình duyệt.
+### B. Background Effects Strategy
 
-## 3. Visual Effects Rendering Pipeline
+- **Bokeh Particles**: Sử dụng DOM elements kết hợp CSS Animation để tối ưu hiệu năng render (thay vì Canvas nặng nề cho các vòng tròn mờ).
+- **Mouse Trail**: Sử dụng HTML5 Canvas 2D API để vẽ hạt theo tọa độ chuột một cách mượt mà.
 
-- **Canvas Rendering**: `Mouse Trail` sử dụng Canvas 2D để đạt hiệu năng cao (60 FPS) mà không gây nặng DOM.
-- **CSS Animations**: `Snowfall` và `Aurora Bokeh` ưu tiên sử dụng CSS animations (GPU accelerated) để tiết kiệm tài nguyên CPU.
-- **3D Transform**: Hiệu ứng Tilt trên Card được tính toán dựa trên tọa độ chuột và áp dụng thông qua inline styles với CSS transitions để mượt mà.
+## 3. Quản lý trạng thái (State Management)
 
-## 4. Audio Management
+Project sử dụng **Vue Composition API (ref, reactive)** để quản lý state cục bộ.
 
-Sử dụng YouTube IFrame API ẩn để phát nhạc. Logic điều khiển (Play/Pause/Mute) được đóng gói hoàn toàn trong component `AudioToggle.vue`.
+- `entered`: Trạng thái đã vào trang hay chưa.
+- `isMuted`: Trạng thái bật/tắt âm thanh.
+
+## 4. YouTube API Integration
+
+- API được load động qua thẻ `<script>` trong `onMounted` của `AudioToggle.vue`.
+- Sử dụng `videoId` và `playlist` từ `profileConfig` để đảm bảo bài hát có thể lặp lại (loop).
+- Player được ẩn hoàn toàn (`opacity: 0`) và chỉ điều khiển qua code.
+
+## 5. Directory Responsibilities
+
+- `src/components/effects/`: Chứa các component phục vụ visual effects.
+- `src/config/`: Nơi chứa "Single Source of Truth" cho toàn bộ dữ liệu.
+- `src/hooks/`: (Đang phát triển) Tách logic xử lý animation phức tạp.

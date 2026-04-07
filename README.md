@@ -1,104 +1,81 @@
-# ❄️ Winter Portfolio - Minh Thuận
+# ❄️ Minh Thuan's Winter Portfolio
 
-[![Vue](https://img.shields.io/badge/Vue.js-3.5+-4fc08d.svg)](https://vuejs.org/)
-[![Vite](https://img.shields.io/badge/Vite-6.0+-646cff.svg)](https://vitejs.dev/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
-Một portfolio cá nhân phong cách mùa đông tối giản, hiện đại với các hiệu ứng tuyết rơi, aurora bokeh và 3D card tilt. Được xây dựng bởi **Minh Thuận**.
+> A modern, sleek, and high-performance portfolio website built with Vue 3, Vite, and magic.
 
 ---
 
-## ✨ Tính năng chính
+## ✨ Features
 
-- 🏔️ **Giao diện Mùa đông**: Hiệu ứng Glassmorphism kết hợp tone màu xanh tuyết.
-- ❄️ **Snowfall Effect**: Tuyết rơi chân thực theo mật độ tùy chỉnh.
-- 🌈 **Aurora Bokeh**: Các đốm sáng lung linh di chuyển mượt mà ở background.
-- 🖱️ **Mouse Trail**: Hiệu ứng hạt theo đuổi con trỏ chuột.
-- 🎻 **Auto-play Music**: Nhạc nền Winter Lofi tự động phát khi vào trang (thông qua Splash Screen).
-- 📱 **Responsive Design**: Tương thích hoàn hảo trên mọi thiết bị.
+- **3D Interactive Card**: Responsive 3D tilt effect following mouse movement.
+- **Aurora Bokeh Particles**: Smooth, animated background particles for a premium feel.
+- **Snowfall Effect**: Lightweight and immersive winter atmosphere.
+- **Audio Experience**: Background music with YouTube IFrame API integration (Autoplay on enter).
+- **Responsive Design**: Glassmorphism UI that looks stunning on all devices.
+- **Tech Stack**: Vue 3 (Composition API), Vite, Bootstrap Icons.
 
 ---
 
-## 🏗️ Kiến trúc tổng quan
+## 🏗️ Architecture Overview
 
-Dự án sử dụng **Vue 3 (Composition API)** kết hợp với **Vite** để tối ưu tốc độ build. Dữ liệu được quản lý tập trung tại hệ thống Config.
+Dự án được thiết kế theo hướng **Component-driven**. Toàn bộ logic hiển thị và hiệu ứng được chia nhỏ thành các components độc lập để dễ dàng bảo trì và mở rộng.
 
-```mermaid
-graph TD
-    A[App.vue] --> B[SplashScreen]
-    A --> C[AudioToggle]
-    A --> D[SnowfallEffect]
-    A --> E[GlassCard]
-    E --> F[AvatarGlow]
-    E --> G[TypingText]
-    E --> H[SocialLinks]
-    E --> I[InfoCard]
-    E --> J[TechBadges]
-    K[profile.js] --> A
+Xem chi tiết tại [ARCHITECTURE.md](./ARCHITECTURE.md).
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/) (v16.x or higher)
+- [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+
+### Installation
+
+```bash
+# Clone the repository
+git clone https://github.com/Mimhthuan113/portfolio.git
+
+# Navigate to project
+cd portfolio
+
+# Install dependencies
+npm install
+```
+
+### Development
+
+```bash
+npm run dev
 ```
 
 ---
 
-## 🚀 Cài đặt & Chạy project
+## ⚙️ Configuration
 
-### Yêu cầu hệ thống
+Tất cả thông tin cá nhân và cấu hình UI có thể được tùy chỉnh tại:
 
-- **Node.js**: >= 18.x
-- **npm**: >= 9.x
-
-### Các bước cài đặt
-
-1. Clone repository:
-   ```bash
-   git clone https://github.com/Mimhthuan113/portfolio.git
-   ```
-2. Cài đặt dependency:
-   ```bash
-   npm install
-   ```
-3. Chạy môi trường phát triển:
-   ```bash
-   npm run dev
-   ```
+- `src/config/profile.js`: Thông tin cá nhân, links, youtube ID.
+- `src/config/ui.js`: Các hằng số về animation và hiệu ứng.
 
 ---
 
-## ⚙️ Cấu hình (Environment)
+## 🤝 Contributing
 
-Dữ liệu của portfolio được cấu hình tập trung tại:
-`src/config/profile.js`
-
-Ní có thể thay đổi:
-
-- Biệt danh, các dòng text typing.
-- Link mạng xã hội (GitHub, Facebook, Zalo...).
-- Danh sách công nghệ (Tech stack).
-- YouTube Video ID cho nhạc nền.
-
----
-
-## 📁 Cấu trúc thư mục
-
-Xem chi tiết tại [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md)
-
----
-
-## 🤝 Đóng góp
-
-Hướng dẫn đóng góp có tại [CONTRIBUTING.md](./CONTRIBUTING.md)
-
----
-
-## 📜 Giấy phép
-
-Dự án này được phát hành dưới giấy phép [MIT](./LICENSE).
+Mọi đóng góp đều được chào đón! Hãy đọc [CONTRIBUTING.md](./CONTRIBUTING.md) để biết thêm chi tiết.
 
 ---
 
 ## 🗺️ Roadmap
 
-- [x] Music Auto-play implementation.
-- [x] Configuration extraction (Single Source of Truth).
-- [ ] Add Project Showcase section.
-- [ ] Dark/Light mode toggle.
-- [ ] Internationalization (i18n).
+- [x] Giao diện Glassmorphism cơ bản.
+- [x] Tích hợp nhạc nền YouTube (Đừng Làm Trái Tim Anh Đau).
+- [ ] Cải thiện SEO và Meta tags.
+- [ ] Thêm mục Blog cá nhân.
+- [ ] Optimize performance cho mobile.
+
+---
+
+## 📄 License
+
+Project này được bảo trì bởi [Minh Thuận](https://github.com/Mimhthuan113).

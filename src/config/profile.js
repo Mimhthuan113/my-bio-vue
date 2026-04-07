@@ -39,6 +39,6 @@ export const profileConfig = {
   ],
   techBadges: ['Java', 'Node.js', '.NET', 'Python', 'PHP', 'Vue.js', 'Docker'],
   audio: {
-    youtubeId: 'BjVHBGGm00k'
+    youtubeId: '05S2uf37ufc'
   }
 }

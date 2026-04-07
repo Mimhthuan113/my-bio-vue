@@ -1,40 +1,34 @@
 # 📁 Folder Structure
 
-Cấu trúc thư mục của dự án được thiết kế theo hướng module hóa và dễ mở rộng.
+Cấu trúc dự án được tổ chức theo chuẩn **Scalable Component Pattern**.
 
 ```text
 portfolio/
-├── .vscode/               # Cấu hình VS Code cho project
-├── public/                # Static assets (images, icons)
-│   └── avatar.png         # Hình đại diện
+├── .vscode/             # Cấu hình riêng cho VS Code
+├── public/              # Tài sản tĩnh truyền trực tiếp (favicon, avatar)
 ├── src/
-│   ├── assets/            # Global styles and assets
-│   │   └── style.css      # Core theme styles
-│   ├── components/        # Vue components
-│   │   ├── AudioToggle.vue    # Điều khiển nhạc nền
-│   │   ├── AvatarGlow.vue     # Avatar với hiệu ứng lấp lánh
-│   │   ├── HelloWorld.vue     # Component mẫu (mặc định)
-│   │   ├── InfoCard.vue       # Nội dung giới thiệu chi tiết
-│   │   ├── SnowfallEffect.vue # Hiệu ứng tuyết rơi
-│   │   ├── SocialLinks.vue    # Danh sách liên kết xã hội
-│   │   ├── SplashScreen.vue   # Màn hình chào khi mới vào
-│   │   ├── TechBadges.vue     # Các tag công nghệ
-│   │   └── TypingText.vue     # Hiệu ứng gõ chữ
-│   ├── config/            # Hệ thống cấu hình
-│   │   └── profile.js     # Chứa toàn bộ data profile
-│   ├── App.vue            # Component gốc điều phối chính
-│   └── main.js            # Entry point của ứng dụng
-├── .editorconfig          # Định dạng code chuẩn editor
-├── .prettierrc            # Cấu hình Prettier
-├── index.html             # HTML template chính
-├── package.json           # Quản lý dependency & scripts
-└── vite.config.js         # Cấu hình Vite
+│   ├── assets/          # CSS toàn cục, font, hình ảnh xử lý qua Vite
+│   │   ├── css/
+│   │   └── images/
+│   ├── components/      # UI Components
+│   │   ├── common/      # Các component dùng chung (Badge, Card, Link)
+│   │   ├── effects/     # Các hiệu ứng visual (Snow, Bokeh, Audio)
+│   │   └── layout/      # Các thành phần cấu trúc (SplashScreen)
+│   ├── config/          # Centralized configuration (Source of truth)
+│   │   ├── profile.js   # Dữ liệu người dùng
+│   │   └── ui.js        # Hằng số giao diện
+│   ├── hooks/           # Vue Composables (Logic sủa dụng lại)
+│   ├── App.vue          # Root component
+│   └── main.js          # Điểm đầu vào dự án
+├── .editorconfig        # Đồng bộ cấu hình editor
+├── .eslintrc.json       # Kiểm soát chất lượng code
+├── .prettierrc          # Tự động định dạng code
+├── package.json         # Scripts và dependencies
+└── vite.config.js       # Cấu hình Vite
 ```
 
----
+### Chi tiết các thư mục:
 
-### Quy tắc đặt tên
-
-- **Components**: PascalCase (ví dụ: `AudioToggle.vue`).
-- **Configs/Scripts**: camelCase (ví dụ: `profile.js`).
-- **Assets**: kebab-case.
+- **`src/config/`**: Đây là nơi quan suất nhất để thay đổi nội dung trang web mà không cần sửa code logic.
+- **`src/components/effects/`**: Chứa các logic AI/Visual nặng như Canvas Trail hoặc Snowfall.
+- **`src/components/common/`**: Chứa các "Atomic components" nhỏ nhất.
